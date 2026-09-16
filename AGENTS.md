@@ -45,8 +45,9 @@ Do not redesign. The following behaviors must remain identical to v24:
 
 - Split inline image data URIs into real files under `/assets` during the later
   extraction task.
-- Vendor ThreeJS r128 locally as `/assets/vendor/three.min.js` during the later
-  extraction task; retain the existing timeout/bail behavior.
+- Vendor ThreeJS r128 locally under `/assets/vendor/` with a content-hashed
+  filename during the later extraction task; retain the existing timeout/bail
+  behavior.
 - `vercel.json` will later configure caching for assets and no-cache for
   `index.html`.
 
