@@ -1,4 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Krishna Companion</title>
+<meta name="description" content="Kṛṣṇa walks in, opens a verse of Bhagavad-gītā As It Is, and withdraws. Your work keeps running.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Krishna Companion">
+<meta property="og:description" content="Kṛṣṇa walks in, opens a verse of Bhagavad-gītā As It Is, and withdraws. Your work keeps running.">
+<meta property="og:image" content="https://raw.githubusercontent.com/deepkanchalia/krishna-companion-landing/main/assets/og.da4cbbf9.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="Kṛṣṇa stands in a dark blue glow beside the Rethink Systems wordmark for Krishna Companion.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Krishna Companion">
+<meta name="twitter:description" content="Kṛṣṇa walks in, opens a verse of Bhagavad-gītā As It Is, and withdraws. Your work keeps running.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/deepkanchalia/krishna-companion-landing/main/assets/og.da4cbbf9.jpg">
+<meta name="twitter:image:alt" content="Kṛṣṇa stands in a dark blue glow beside the Rethink Systems wordmark for Krishna Companion.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,16..72,400;0,16..72,500;1,16..72,400&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -63,6 +82,7 @@
   .wa-cta .wa-arrow { margin-left: 2px; font-weight: 500; opacity: .85; }
 
   .wa-modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; }
+  .wa-modal[hidden] { display: none; }
   .wa-backdrop { position: absolute; inset: 0; background: rgba(4,8,18,.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); animation: waFade .3s ease; }
   .wa-card {
     position: relative; z-index: 1; max-width: 430px; width: 100%; text-align: center; overflow: hidden;
@@ -248,6 +268,8 @@
   }
   @media (max-width: 560px) { .fig-grid { grid-template-columns: repeat(2, 1fr); } }
 </style>
+</head>
+<body>
 
 <div class="bg"></div>
 <div class="grid-glow"></div>
@@ -269,6 +291,9 @@
       <a class="gh" href="https://github.com/deepkanchalia/krishna-companion" target="_blank" rel="noopener">
         <svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         GitHub
+      </a>
+      <a class="gh" href="https://www.linkedin.com/in/deepkanchalia/" target="_blank" rel="noopener" aria-label="Deepk Anchlia on LinkedIn">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 110-4.14 2.07 2.07 0 010 4.14zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .78 23.2 0 22.22 0z"/></svg>
       </a>
     </div>
   </div>
@@ -413,7 +438,7 @@ krshna style cartoon   <span class="c"># change the figure</span></pre></div>
 
 <footer><div class="wrap">
   <span class="made">Made by <b>Deepk Anchlia</b> · Rethink Systems</span>
-  <a href="https://github.com/deepkanchalia/krishna-companion" target="_blank" rel="noopener">github.com/deepkanchalia/krishna-companion →</a>
+  <a href="https://www.linkedin.com/in/deepkanchalia/" target="_blank" rel="noopener">linkedin.com/in/deepkanchalia →</a>
 </div></footer>
 
 <button class="sound" id="sound" aria-label="Toggle music" title="Music">
@@ -602,7 +627,7 @@ krshna style cartoon   <span class="c"># change the figure</span></pre></div>
     // when its webp sheet has loaded, and we hide the still only while the canvas is drawing.
     // The <img> still and the animation canvas are mutually exclusive: the canvas shows only
     // when it actually drew a webp frame (and then the still is hidden, so there is no double
-    // image), and the still shows only when the webp is not yet loaded — never both at once.
+    // image), and the still shows only when the webp is not yet loaded; never both at once.
     function render(now) {
       ctx.clearRect(0, 0, cssW, cssH);
       var d = FIG[cur], a = assets[cur], drew = false;
@@ -681,7 +706,7 @@ krshna style cartoon   <span class="c"># change the figure</span></pre></div>
     var OXDAMP = 0.3;
     function ease(t) { t = t < 0 ? 0 : t > 1 ? 1 : t; return t*t*(3-2*t); }
     // Draw a frame using the sprite's own (damped) horizontal motion at the given opacity, so
-    // the walk-in and withdrawal are the hand-animated motion plus a graceful dissolve — never
+    // the walk-in and withdrawal are the hand-animated motion plus a graceful dissolve; never
     // a linear slide, and he fades out before he could reach (and hard-clip against) the edge.
     function drawSeg(seg, index, alpha) {
       if (!ready[seg] || alpha <= 0.01) return;
@@ -761,3 +786,6 @@ krshna style cartoon   <span class="c"># change the figure</span></pre></div>
     });
   })();
 </script>
+
+</body>
+</html>
