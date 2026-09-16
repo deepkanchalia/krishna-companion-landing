@@ -41,6 +41,14 @@ Do not redesign. The following behaviors must remain identical to v24:
 - Keep existing aria labels.
 - Give every new link an explicit aria label.
 
+## Artifact skeleton dependencies
+
+These six requirements must remain in `index.html`: doctype, UTF-8 charset meta, responsive viewport meta, `body { margin: 0; }`, `img { max-width: 100%; }`, and `[hidden] { display: none !important; }`.
+
+## Social metadata maintenance
+
+When the custom domain is attached, `og:url`, `og:image`, and `twitter:image` must all be updated to the new domain.
+
 ## Planned future tasks (not part of the bootstrap)
 
 - Split inline image data URIs into real files under `/assets` during the later
