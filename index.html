@@ -43,6 +43,8 @@
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
   body { margin: 0; background: var(--base); color: var(--ink); font-family: "Inter", system-ui, -apple-system, sans-serif; font-size: 16px; line-height: 1.6; letter-spacing: -0.01em; -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
 
   .bg { position: fixed; inset: 0; z-index: 0; background: #05060c url("assets/bg.e6f476ed.jpg") center/cover no-repeat; }
   .bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(4,6,14,.34) 0%, rgba(4,6,14,.6) 45%, rgba(4,6,14,.82) 100%); }
@@ -82,7 +84,6 @@
   .wa-cta .wa-arrow { margin-left: 2px; font-weight: 500; opacity: .85; }
 
   .wa-modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; }
-  .wa-modal[hidden] { display: none; }
   .wa-backdrop { position: absolute; inset: 0; background: rgba(4,8,18,.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); animation: waFade .3s ease; }
   .wa-card {
     position: relative; z-index: 1; max-width: 430px; width: 100%; text-align: center; overflow: hidden;
