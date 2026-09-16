@@ -567,8 +567,8 @@ krshna style cartoon   <span class="c"># change the figure</span></pre></div>
       if (assets[key]) return assets[key];
       var a = { ready: {} };
       a.still = new Image(); a.still.onload = function () { a.ready.still = true; }; a.still.src = STILL_URI[key];
-      a.idle = new Image(); a.idle.onload = function () { a.ready.idle = true; }; a.idle.src = key + "-idle.webp";
-      a.teach = new Image(); a.teach.onload = function () { a.ready.teach = true; }; a.teach.src = key + "-teach.webp";
+      a.idle = new Image(); a.idle.onload = function () { a.ready.idle = true; }; a.idle.src = "assets/" + key + "-idle.webp";
+      a.teach = new Image(); a.teach.onload = function () { a.ready.teach = true; }; a.teach.src = "assets/" + key + "-teach.webp";
       assets[key] = a; return a;
     }
 
@@ -671,7 +671,7 @@ krshna style cartoon   <span class="c"># change the figure</span></pre></div>
     var ctx = canvas.getContext("2d");
     var reduce = matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
     var imgs = {}, ready = {};
-    [["walkin","warrior-walkin.webp"],["farewell","warrior-farewell.webp"],["idle","warrior/idle.webp"]].forEach(function (p) {
+    [["walkin","assets/warrior-walkin.webp"],["farewell","assets/warrior-farewell.webp"],["idle","assets/warrior-idle.webp"]].forEach(function (p) {
       var im = new Image(); im.onload = function () { ready[p[0]] = true; }; im.src = p[1]; imgs[p[0]] = im;
     });
     var dpr = Math.min(devicePixelRatio||1,2), cssW = 0, cssH = 0;
