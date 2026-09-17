@@ -589,17 +589,55 @@ krshna style cartoon   <span class="c"># change the figure</span></pre></div>
     function fit() { var r = canvas.getBoundingClientRect(); cssW = r.width; cssH = r.height; canvas.width = Math.round(cssW*dpr); canvas.height = Math.round(cssH*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); }
     fit(); addEventListener("resize", fit, { passive: true });
 
-    var assets = {}; // key -> { idle:Image, teach:Image, still:Image, ready:{} }
-    function load(key) {
-      if (assets[key]) return assets[key];
-      var a = { ready: {} };
-      a.still = new Image(); a.still.onload = function () { a.ready.still = true; }; a.still.src = STILL_URI[key];
-      a.idle = new Image(); a.idle.onload = function () { a.ready.idle = true; }; a.idle.src = FIG[key].idle.file;
-      a.teach = new Image(); a.teach.onload = function () { a.ready.teach = true; }; a.teach.src = FIG[key].teach.file;
-      assets[key] = a; return a;
+    var assets = {}; // key -> { idle:Image, teach:Image, still:Image, ready:{}, stillP, idleP }
+    // A still is ready only once it has both loaded and decoded (a load-complete fallback is used
+    // only where decode() is genuinely unavailable). An idle sheet is ready once it has loaded.
+    function ensure(key) {
+      var a = assets[key];
+      if (a) return a;
+      a = { ready: {} };
+      a.still = new Image();
+      a.idle = new Image();
+      a.stillP = new Promise(function (res, rej) {
+        a.still.onload = function () {
+          a.ready.still = true;
+          if (typeof a.still.decode === "function") {
+            // decode() exists: it is the source of truth. A rejection rejects readiness (the
+            // current figure is preserved); we never fall back to complete/naturalWidth here.
+            a.still.decode().then(function () { a.ready.stillDecoded = true; res(); }, rej);
+          } else if (a.still.complete && a.still.naturalWidth > 0) {
+            // no decode() available: the load-complete fallback is the only readiness signal.
+            a.ready.stillDecoded = true; res();
+          }
+        };
+        a.still.onerror = rej;
+      });
+      a.idleP = new Promise(function (res, rej) {
+        a.idle.onload = function () { a.ready.idle = true; res(); };
+        a.idle.onerror = rej;
+      });
+      // errors are handled per selection (the current figure stays visible); swallow here so a
+      // cold or failed asset never becomes an unhandled rejection.
+      a.stillP.catch(function () {}); a.idleP.catch(function () {});
+      a.still.src = STILL_URI[key];
+      a.idle.src = FIG[key].idle.file;
+      assets[key] = a;
+      return a;
     }
+    // The teach sheet is fetched only for a figure that is actually selected (never eagerly warmed
+    // for all six), matching the existing behavior of loading the active figure's ashirwad.
+    function ensureTeach(key) {
+      var a = ensure(key);
+      if (a.teach) return a;
+      a.teach = new Image();
+      a.teach.onload = function () { a.ready.teach = true; };
+      a.teach.src = FIG[key].teach.file;
+      return a;
+    }
+    // Warm all six stills and all six idle sheets (no teach sheets) after the intro.
+    function warm() { BOX_STYLES.forEach(function (k) { ensure(k); }); }
 
-    var cur = "pixel", phase = "idle", segStart = 0, teachPending = false, teachAt = 0;
+    var cur = "pixel", phase = "idle", segStart = 0, teachPending = false, teachAt = 0, selToken = 0;
 
     function drawStill(a, key) {
       if (!a.ready.still) return;
@@ -645,10 +683,9 @@ krshna style cartoon   <span class="c"># change the figure</span></pre></div>
       requestAnimationFrame(render);
     }
 
-    function select(key, opts) {
-      opts = opts || {};
-      if (!byKey[key]) return;
-      load(key);
+    // Atomic swap: render a valid target idle frame and update still/class/current/picker state in
+    // one animation frame, with no intermediate blank or partially decoded paint.
+    function commit(key) {
       heroStill.src = STILL_URI[key];
       heroStill.className = "hero-still" + (FIG[key].pixel ? " px" : "");
       heroStill.style.opacity = "1";
@@ -659,7 +696,20 @@ krshna style cartoon   <span class="c"># change the figure</span></pre></div>
       requestAnimationFrame(function(){ requestAnimationFrame(function(){ canvas.classList.remove("enter"); }); });
       // reflect selection in both pickers
       document.querySelectorAll("[data-fig]").forEach(function (el) { el.setAttribute("aria-pressed", el.getAttribute("data-fig") === key ? "true" : "false"); });
+    }
+
+    function select(key, opts) {
+      opts = opts || {};
+      if (!byKey[key]) return;
+      var token = ++selToken; // only the newest selection may commit
+      var a = ensure(key); ensureTeach(key);
       if (opts.scroll) document.getElementById("home").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      // Keep the currently rendered figure fully visible and cur unchanged until the target still is
+      // decoded and its idle sheet has loaded; a failed load leaves the current figure in place.
+      Promise.all([a.stillP, a.idleP]).then(function () {
+        if (token !== selToken) return;
+        requestAnimationFrame(function () { if (token === selToken) commit(key); });
+      }, function () {});
     }
 
     // inline picker (all six)
@@ -684,10 +734,12 @@ krshna style cartoon   <span class="c"># change the figure</span></pre></div>
       grid.appendChild(b);
     });
 
-    // boot: default figure appears and blesses on its own
-    load("pixel");
-    select("pixel");
-    requestAnimationFrame(render);
+    // boot: the default Pixel loads and the render loop starts immediately, under the intro
+    // overlay, so the first visible frame after the intro is never blank (original v24 boot
+    // behavior). Only Pixel (the active default) is warmed early; the other five figures warm
+    // once kr-intro-done fires.
+    select("pixel"); requestAnimationFrame(render);
+    if (window.__krIntroDone) warm(); else document.addEventListener("kr-intro-done", warm, { once: true });
   })();
 
   /* darshan replay: the warrior Kṛṣṇa walks in, the card opens, he withdraws, on a loop */
